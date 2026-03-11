@@ -22,7 +22,10 @@ This program translates assembly code written in the Hack language into binary m
 ## Usage
 
 ```bash
-./hack_assembler path/to/program.asm
+./hack_assembler path/to/program.asm [output file]
+```
+```ps
+.\hack_assembler.exe path\to\program.asm [output file]
 ```
 
 ## Implementation Details
