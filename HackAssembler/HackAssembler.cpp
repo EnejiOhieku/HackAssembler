@@ -8,18 +8,23 @@
 
 #include <string>
 #include <bitset>
+#include <filesystem>
 
 
 
 using namespace std;
+namespace fs = filesystem;
 
 
 
-string input_file = ".\\Add.asm", output_file;
+string input_file, output_file;
 SymbolTable symbol_table;
 Parser parser;
 Code code;
 
+
+void handleFiles() {
+}
 void initSymbolTable() {
 	symbol_table.addEntry("SP", 0);
 	symbol_table.addEntry("LCL", 1);
@@ -85,13 +90,18 @@ void secondPass() {
 
 
 int main(int argc, char** argv) {
-	//if (argc > 0) input_file = string(argv[0]);
-	//if (argc > 1) output_file = string(argv[1]);
-	//else if (input_file.size()) output_file = input_file.substr(0, input_file.find('.'))+".hack";
-	output_file = input_file.substr(0, input_file.find('.')) + ".hack";
+	if (argc == 1) {
+		cout << "Error: No input files provided.";
+		return 0;
+	}
 
-	cout << input_file << ' ' << output_file << endl;
 	try {
+		string pwd = fs::current_path().string() + "\\";
+		input_file = pwd + string(argv[1]);
+
+		if (argc == 2) output_file = input_file.substr(0, input_file.size() - 3) + "hack";
+		else output_file = pwd + string(argv[2]);
+
 		parser = Parser(input_file);
 		initSymbolTable();
 		firstPass();
